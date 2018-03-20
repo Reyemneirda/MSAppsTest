@@ -142,6 +142,7 @@
 			children = (
 				85E18F3F20595C2400BCBE7B /* AppDelegate.swift */,
 				85E18F5420595CEE00BCBE7B /* BaseViewController.swift */,
+				8551C11D20610AB900CA753F /* Extensions.swift */,
 				85E18F70205989DE00BCBE7B /* CoreDataMangment */,
 				85E18F5D2059644000BCBE7B /* Models */,
 				85E18F5A205963D300BCBE7B /* Controller */,
@@ -150,7 +151,6 @@
 				85E18F4B20595C2400BCBE7B /* LaunchScreen.storyboard */,
 				85E18F4E20595C2400BCBE7B /* Info.plist */,
 				85E18F4620595C2400BCBE7B /* MsAppsTest.xcdatamodeld */,
-				8551C11D20610AB900CA753F /* Extensions.swift */,
 			);
 			path = MsAppsTest;
 			sourceTree = "<group>";

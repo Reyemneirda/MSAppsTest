@@ -13,19 +13,30 @@ class TopMovies: BaseViewController, UITableViewDelegate, UITableViewDataSource 
 
     @IBOutlet weak var tableView: UITableView!
     
+    lazy var fetchedhResultController: NSFetchedResultsController<NSFetchRequestResult> = {
+       let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "releaseYear", ascending: true)]
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: PersistenceServices.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        frc.delegate = self
+        return frc as! NSFetchedResultsController<NSFetchRequestResult>
+    }()
+    
+    
     var movies: [Movies] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
        
-        
-        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
+
         
         do
         {
-            let movie = try PersistenceServices.context.fetch(fetchRequest)
-            self.movies = movie
+            try self.fetchedhResultController.performFetch()
+            
+                 let movie = self.fetchedhResultController.fetchedObjects
+                    
+            self.movies = movie as! [Movies]
             
             self.movies.sort(){$0.releaseYear > $1.releaseYear}
             
