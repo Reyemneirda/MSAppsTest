@@ -9,9 +9,9 @@
 import Foundation
 import CoreData
 
-class PersistenceServices
-{
+class PersistenceServices {
     private init() {}
+    
     static var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
@@ -43,5 +43,6 @@ class PersistenceServices
             }
         }
     }
+    
     
 }

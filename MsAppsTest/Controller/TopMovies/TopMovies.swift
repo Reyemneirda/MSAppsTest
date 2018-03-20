@@ -18,7 +18,7 @@ class TopMovies: BaseViewController, UITableViewDelegate, UITableViewDataSource 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
+       
         
         let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         
@@ -26,8 +26,13 @@ class TopMovies: BaseViewController, UITableViewDelegate, UITableViewDataSource 
         {
             let movie = try PersistenceServices.context.fetch(fetchRequest)
             self.movies = movie
+            
             self.movies.sort(){$0.releaseYear > $1.releaseYear}
-             tableView.reloadData()
+            
+            tableView.delegate = self
+            tableView.dataSource = self
+            tableView.reloadData()
+            
         } catch {}
         
         
@@ -62,11 +67,8 @@ class TopMovies: BaseViewController, UITableViewDelegate, UITableViewDataSource 
         self.performSegue(withIdentifier: "movieDetails", sender: movies)
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let lastElement = movies.count - 1
-        if indexPath.row == lastElement {
-          tableView.reloadData()
-        }
+    @IBAction func qrReader() {
+        self.performSegue(withIdentifier: "qrCode", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -14,7 +14,8 @@ class Splash: BaseViewController {
 
     var movies : [JsonMovies]? = []
     
-    var coreMovies: [Movies] = []
+    var coreMovies: [Movies]? = []
+    
     
     override func viewDidLoad() {
         
@@ -22,13 +23,12 @@ class Splash: BaseViewController {
         
         loadMovies()
 
-        
-//        loadMovies()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func viewWillAppear(_ animated: Bool) {
     }
+    
+    
     
     
     
@@ -37,7 +37,7 @@ class Splash: BaseViewController {
         APIManager.sharedInstance.getTopMovies { (movie, error) in
             DispatchQueue.main.async {
 
-                MBProgressHUD.hide(for: self.mainView, animated: true)
+                self.clearData()
                 
                 if let movies = movie
                 {
@@ -47,8 +47,11 @@ class Splash: BaseViewController {
                         
                         self.coreMovies = [Movies(context: PersistenceServices.context, jsonMovies: movie)]
                     }
-                
+                    
+                    MBProgressHUD.hide(for: self.mainView, animated: true)
+
                         PersistenceServices.saveContext()
+                    
                     self.performSegue(withIdentifier: "splash", sender: self)
                 }
                 else
@@ -72,6 +75,22 @@ class Splash: BaseViewController {
             
         }
         }
+    
+    
+    private func clearData() {
+        do {
+            
+            let context = PersistenceServices.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: Movies.self))
+            do {
+                let objects  = try context.fetch(fetchRequest) as? [NSManagedObject]
+                _ = objects.map{$0.map{context.delete($0)}}
+                PersistenceServices.saveContext()
+            } catch let error {
+                print("ERROR DELETING : \(error)")
+            }
+        }
+    }
     
     
 }

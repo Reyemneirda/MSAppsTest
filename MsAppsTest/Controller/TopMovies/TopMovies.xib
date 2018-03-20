@@ -36,6 +36,9 @@
                             <barButtonItem key="backBarButtonItem" title="Back" id="UVb-Yp-N96"/>
                             <barButtonItem key="rightBarButtonItem" systemItem="camera" id="UsN-Wo-TNC">
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="qrReader" destination="-1" id="40j-L1-87N"/>
+                                </connections>
                             </barButtonItem>
                         </navigationItem>
                     </items>
